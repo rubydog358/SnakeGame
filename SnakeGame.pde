@@ -9,54 +9,64 @@ String status = "";
 PVector food;
 boolean gotFood;
 boolean alive;
+color bgcolor;
 
 void setup() {
+  bgcolor=  color(random(255), random(255), random(255));
   size(600, 600);
   s = new Snake();
   alive = true;
   frameRate(10);
   setFoodLocation();
-}
+}//makes background random color on startup
 
 void draw() {
-  background(51);
+  background(bgcolor);
+  if (keyPressed==true){
+    if (key == 'w'){
+      s.dir(0, -1);
+    }
+    if(key == 's'){
+      s.dir(0, 1);
+  }
+  if(key == 'a'){
+    s.dir(-1, 0);
+  }
+  if(key == 'd'){
+    s.dir(1, 0);
+  }
+    //moves the snake in the right direction with WASD
+  }
 
-  // TODO: check whether the keyPressed variable is true.
-  //       If it is, check which is key is pressed, using
-  //       something like one of these: 
-  //         if (key == 'a') ...
-  //         if (keyCode == UP) ...
-  //       Then move the snake appropriately, using these:
-  //         s.dir(0, -1) moves the snake up
-  //         s.dir(0, 1) moves the snake down
-  //         s.dir(-1, 0) moves the snake left
-  //         s.dir(1, 0) moves the snake right
-  //       Then replace this comment with one of your own.
   
   s.checkForPulse();
   s.update();
   s.show();
 
   gotFood = s.eat(food);
-  
-  // TODO: Write code that checks if
-  //       gotFood is true. If it is,
-  //       then call the function
-  //       setFoodLocation(). If it
-  //       is not true, then do nothing.
-  //       Then replace this comment with one of your own.
+   if(gotFood==true){
+     setFoodLocation();
+     bgcolor = color(random(255),random(255), random(255));
+   }//when ya eat food, it changes the background color
+ if (mousePressed==true){
+   background(random(255), random(255), random(255));
+ }//changes background to another if mouse is pressed
   
   fill(255, 0, 100);
   rect(food.x, food.y, scl, scl);
   
   status = "length: " + s.total;
   
-  // TODO: Write code that displays 
-  //       the current length of the snake.
-  //       Then replace this comment with one of your own.
-  //       If you need a hint, use the
-  //       examples in the Processing docs:
-  //       https://processing.org/reference/text_.html
+  
+      textSize(32);
+text(status, 10, 30); 
+fill(0, 102, 153);
+    
+       
+    }//shows the text
+    
+  
+
 
   // TODO: Extensions...
   //       1. add a cheat. if mousePressed is true,
@@ -70,7 +80,7 @@ void draw() {
   //            - then ask a colleague if you need help or ideas
   //       Then replace this comment with one of your own. 
   
-}
+
 
 
 void setFoodLocation() {
